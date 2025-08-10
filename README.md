@@ -13,6 +13,8 @@ NUXT_PUBLIC_SUPABASE_URL=sua_url_do_supabase_aqui
 NUXT_PUBLIC_SUPABASE_KEY=sua_chave_publica_do_supabase_aqui
 ```
 
+Após criar/alterar o `.env`, reinicie o servidor de desenvolvimento para aplicar as mudanças.
+
 Observação: o projeto também aceita os nomes `SUPABASE_URL` e `SUPABASE_KEY` como fallback, mas prefira as variáveis com prefixo `NUXT_PUBLIC_`.
 
 ### 2. Instalação
@@ -56,7 +58,7 @@ values
 ('Fernanda Alves Costa', 'Coordenadora de Marketing', 'Av. Brasil, 900 - Rio de Janeiro', 'fernanda.costa@example.com', 8700.00),
 ('Rafael Nogueira Souza', 'Engenheiro de Software', 'Rua do Comércio, 78 - Porto Alegre', 'rafael.souza@example.com', 10350.90),
 ('Tatiane Moreira Dias', 'Assistente Administrativo', 'Rua Aurora, 45 - Recife', 'tatiane.dias@example.com', 3850.00),
-('João Pedro Martins', 'Designer UX/UI', 'Alameda Santos, 512 - São Paulo', 6700.40);
+('João Pedro Martins', 'Designer UX/UI', 'Alameda Santos, 512 - São Paulo', 'joao.martins@example.com', 6700.40);
 ```
 
 ## Build de Produção

@@ -1,16 +1,37 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'default' })
 import FormFuncionario from '~/components/FormFuncionario.vue'
 import AppButton from '~/components/AppButton.vue'
+import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
+import { useFuncionarios } from '~/composables/useFuncionarios'
+import type { Funcionario } from '~/types/funcionarios'
 
+definePageMeta({ layout: 'default' })
+
+const route = useRoute()
 const router = useRouter()
+const idParam = computed(() => Number(route.params.id))
+
+const { funcionarios, fetchById } = useFuncionarios()
+
+const initial = computed<Partial<Funcionario> | null>(() => {
+  const id = idParam.value
+  if (!Number.isFinite(id)) return null
+  return funcionarios.value.find((f) => Number(f.id) === id) || null
+})
+
+onMounted(async () => {
+  const id = idParam.value
+  if (Number.isFinite(id) && !initial.value) {
+    await fetchById(id)
+  }
+})
 </script>
 
 <template>
   <section class="mx-auto w-full max-w-2xl p-6">
     <div class="mb-4 flex items-center justify-between">
-      <!-- Mobile: ícone circular -->
+      <!-- Mobile: ícone -->
       <AppButton
         variant="ghost"
         size="sm"
@@ -29,10 +50,11 @@ const router = useRouter()
         </svg>
         Voltar
       </AppButton>
-      <h1 class="text-xl font-semibold text-foreground">Novo cadastro</h1>
+      <h1 class="text-xl font-semibold text-foreground">Editar funcionário</h1>
     </div>
     <div class="rounded-lg border border-border bg-surface p-4">
-      <FormFuncionario :isnovo="true" />
+      <FormFuncionario :isnovo="false" :initial="initial || undefined" />
+      <p v-if="!initial" class="mt-3 text-sm text-muted-foreground">Carregue a lista ou navegue a partir da listagem para pré-preencher.</p>
     </div>
   </section>
 </template>

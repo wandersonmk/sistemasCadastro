@@ -5,4 +5,5 @@
       <NuxtPage />
     </NuxtLayout>
   </div>
+  
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Variant = 'primary' | 'secondary' | 'ghost'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive'
 type Size = 'sm' | 'md' | 'lg'
 
 const props = withDefaults(
@@ -34,6 +34,8 @@ const variantClasses = computed(() => {
       return 'bg-secondary text-secondary-foreground hover:bg-ink-800'
     case 'ghost':
       return 'bg-transparent text-foreground hover:bg-muted'
+    case 'destructive':
+      return 'bg-red-600 text-white hover:bg-red-700'
     default:
       return 'bg-primary text-primary-foreground hover:bg-brand-700'
   }

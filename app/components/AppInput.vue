@@ -34,6 +34,7 @@ const labelClasses = 'mb-1 block text-sm font-medium text-foreground'
       :disabled="props.disabled"
       :value="props.modelValue as any"
       :class="inputClasses"
+      v-bind="$attrs"
       @input="onInput"
     />
   </div>

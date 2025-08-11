@@ -2,6 +2,11 @@ import { H3Event, createError, defineEventHandler, readBody } from 'h3'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { useRuntimeConfig } from '#imports'
 
+import { H3Event, createError, defineEventHandler, readBody } from 'h3'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { useRuntimeConfig } from '#imports'
+
+// Força confirmação do e-mail via Service Role quando necessário
 export default defineEventHandler(async (event: H3Event) => {
   const { email } = await readBody<{ email: string }>(event)
   if (!email || !/[^\s@]+@[^\s@]+\.[^\s@]+/.test(email)) {

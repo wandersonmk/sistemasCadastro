@@ -43,22 +43,7 @@ export function useAuth() {
     errorMessage.value = null
     try {
       const { data, error } = await $supabase.auth.signInWithPassword({ email, password })
-      if (error) {
-        // Se o erro for de e-mail não confirmado, tentamos confirmar no servidor e repetir o login
-        const msg = String(error.message || '').toLowerCase()
-        if (msg.includes('email not confirmed')) {
-          try {
-            await $fetch('/api/auth/confirm-email', { method: 'POST', body: { email } })
-            const retry = await $supabase.auth.signInWithPassword({ email, password })
-            if (retry.error) throw retry.error
-            user.value = retry.data.user
-            return retry.data.user
-          } catch (confErr) {
-            throw error
-          }
-        }
-        throw error
-      }
+      if (error) throw error
       user.value = data.user
       return data.user
     } catch (err: any) {

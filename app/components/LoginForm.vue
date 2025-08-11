@@ -5,6 +5,7 @@ import AppButton from '~/components/AppButton.vue'
 import AuthPasswordInput from '~/components/AuthPasswordInput.vue'
 import { useAuth } from '~/composables/useAuth'
 import { useRouter } from 'vue-router'
+import EmailConfirmModal from '~/components/EmailConfirmModal.vue'
 
 const loginEmail = ref('')
 const loginPassword = ref('')
@@ -27,6 +28,7 @@ const signupPasswordError = ref<string | null>(null)
 const signupConfirmError = ref<string | null>(null)
 const signupSubmitError = ref<string | null>(null)
 const signupSubmitInfo = ref<string | null>(null)
+const showConfirmModal = ref(false)
 
 function isValidEmail(value: string): boolean {
   // Regex básica e suficiente para validação de formato
@@ -80,16 +82,8 @@ async function handleSignup() {
 
   try {
     const result = await signup({ email: signupEmail.value, password: signupPassword.value })
-    // Independente do status de confirmação de e-mail,
-    // se temos um usuário retornado, consideramos sucesso e redirecionamos.
-    if (result.user) {
-      router.push('/')
-      return
-    }
-    // Fallback: tenta login e redireciona
-    await login({ email: signupEmail.value, password: signupPassword.value })
-    router.push('/')
-    return
+    // Exibe modal orientando a confirmar o e-mail e envia para a tela de login no OK
+    showConfirmModal.value = true
   } catch (err: any) {
     signupSubmitError.value = err?.message || 'Falha no cadastro.'
   }
@@ -201,6 +195,11 @@ async function handleSignup() {
         </TabGroup>
       </div>
     </div>
+    <EmailConfirmModal
+      v-model="showConfirmModal"
+      :email="signupEmail"
+      @confirm="() => (showConfirmModal = false, router.push('/obrigado'))"
+    />
   </div>
 </template>
 

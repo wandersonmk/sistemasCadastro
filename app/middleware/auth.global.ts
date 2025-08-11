@@ -6,6 +6,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const userState = useState<any>('auth:user')
 
   const isLoginRoute = to.path === '/login'
+  const isObrigado = to.path === '/obrigado'
   // Ignora caminhos internos do Nuxt/Vite e arquivos estáticos
   const path = to.path || ''
   if (
@@ -45,6 +46,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
   // Regras de navegação
   if (isLoginRoute && isAuthenticated) {
     return navigateTo('/')
+  }
+
+  // Permite acesso à página de obrigado sem header e sem sessão
+  if (isObrigado) {
+    return
   }
 
   if (!isLoginRoute && !isAuthenticated) {
